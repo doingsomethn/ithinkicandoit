@@ -1,0 +1,31 @@
+name: Run HTTP Request Every Minute
+
+on:
+  schedule:
+    # This schedule triggers every 5 minutes.
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"  # Use the Node.js version you need
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run script in loop
+        run: |
+          # Run for 5 minutes (300 seconds), sending a request every 60 seconds.
+          END=$((SECONDS+300))
+          while [ $SECONDS -lt $END ]; do
+            node script.js
+            sleep 60
+          done

@@ -1,9 +1,9 @@
-name: Run HTTP Request Every Minute
+name: Run HTTP Request Every 60 Minute
 
 on:
   schedule:
     # This schedule triggers every 5 minutes.
-    - cron: "*/5 * * * *"
+    - cron: "*/1 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -23,9 +23,6 @@ jobs:
 
       - name: Run script in loop
         run: |
-          # Run for 5 minutes (300 seconds), sending a request every 60 seconds.
-          END=$((SECONDS+300))
-          while [ $SECONDS -lt $END ]; do
-            python script.py
-            sleep 60
+          # Run for 60 minutes (3600 seconds), sending a request every 60 seconds.
+          python script.py
           done
